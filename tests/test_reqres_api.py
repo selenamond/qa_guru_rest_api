@@ -1,12 +1,13 @@
 import requests
 from jsonschema.validators import validate
-from conftest import load_json_schema
+from conftest import load_json_schema, reqres_api
 
 
 def test_get_users_list_per_page():
     per_page = 6
-    response = requests.get(url='https://reqres.in/api/users',
-                            params={'per_page': per_page})
+    response = reqres_api(method='get',
+                          url='/api/users',
+                          params={'per_page': per_page})
 
     assert response.status_code == 200
     assert response.json()['per_page'] == per_page
@@ -15,8 +16,9 @@ def test_get_users_list_per_page():
 
 def test_get_found_single_user_data():
     id = 2
-    response = requests.get(url='https://reqres.in/api/users',
-                            params={'id': id})
+    response = reqres_api(method='get',
+                          url='/api/users',
+                          params={'id': id})
 
     assert response.status_code == 200
     assert response.json()['data']['id'] == id
@@ -24,8 +26,9 @@ def test_get_found_single_user_data():
 
 def test_get_single_user_not_found_status_code():
     id = 77
-    response = requests.get(url='https://reqres.in/api/users',
-                            params={'id': id})
+    response = reqres_api(method='get',
+                          url='/api/users',
+                          params={'id': id})
 
     assert response.status_code == 404
 
@@ -33,7 +36,8 @@ def test_get_single_user_not_found_status_code():
 def test_get_users_list_response_format():
     schema = load_json_schema('get_users_list_schema.json')
 
-    response = requests.get(url='https://reqres.in/api/users')
+    response = reqres_api(method='get',
+                          url='/api/users')
 
     validate(instance=response.json(),
              schema=schema)
@@ -46,8 +50,9 @@ def test_create_user_response_format():
         "name": "morpheus01",
         "job": "leader"
     }
-    response = requests.post(url='https://reqres.in/api/users',
-                             json=payload)
+    response = reqres_api(method='post',
+                          url='/api/users',
+                          json=payload)
 
     assert response.status_code == 201
     validate(instance=response.json(),
@@ -64,8 +69,9 @@ def test_successful_register_user_response_format():
         "password": "pistol"
     }
 
-    response = requests.post(url='https://reqres.in/api/register',
-                             json=payload)
+    response = reqres_api(method='post',
+                          url='/api/register',
+                          json=payload)
 
     assert response.status_code == 200
     validate(instance=response.json(),
@@ -77,8 +83,9 @@ def test_register_user_empty_data_status_code():
         "email": "",
         "password": ""
     }
-    response = requests.post(url='https://reqres.in/api/register',
-                             json=payload)
+    response = reqres_api(method='post',
+                          url='/api/register',
+                          json=payload)
 
     assert response.status_code == 400
 
@@ -92,7 +99,8 @@ def test_delete_user_status_code():
 def test_get_single_resource_response_format():
     schema = load_json_schema('get_single_resource_schema.json')
 
-    response = requests.get(url='https://reqres.in/api/unknown/2')
+    response = reqres_api(method='get',
+                          url='/api/unknown/2')
 
     assert response.status_code == 200
     validate(instance=response.json(),
@@ -107,8 +115,9 @@ def test_update_single_user_format_json():
         "job": "zion resident"
     }
 
-    response = requests.put(url='https://reqres.in/api/users/2',
-                            json=payload)
+    response = reqres_api(method='put',
+                          url='/api/users/2',
+                          json=payload)
 
     assert response.status_code == 200
     validate(response.json(), schema=schema)

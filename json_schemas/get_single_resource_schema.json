@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "data": {
       "type": "object",
@@ -31,6 +32,7 @@
     },
     "support": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "url": {
           "type": "string"
