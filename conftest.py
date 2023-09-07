@@ -27,10 +27,39 @@ def reqres_api(method, url, **kwargs):
                           name="Curl",
                           attachment_type=AttachmentType.TEXT,
                           extension='txt')
-            allure.attach(body=json.dumps(response.json(), indent=4).encode("utf8"),
-                          name="Response Json",
-                          attachment_type=AttachmentType.JSON,
-                          extension='json')
+            if not response.content:
+                allure.attach(body=message.encode("utf8"),
+                              name="Text",
+                              attachment_type=AttachmentType.TEXT)
+            else:
+                allure.attach(body=json.dumps(response.json(), indent=4).encode("utf8"),
+                              name="Response Json",
+                              attachment_type=AttachmentType.JSON,
+                              extension='json')
     return response
 
 
+def catfact_api(method, url, **kwargs):
+    base_url = "https://catfact.ninja"
+    new_url = base_url + url
+    method = method.upper()
+    with allure.step(f"{method} {url}"):
+        with sessions.Session() as session:
+            response = session.request(method=method,
+                                       url=new_url,
+                                       **kwargs)
+            message = to_curl(response.request)
+            allure.attach(body=message.encode("utf8"),
+                          name="Curl",
+                          attachment_type=AttachmentType.TEXT,
+                          extension='txt')
+            if not response.content:
+                allure.attach(body=message.encode("utf8"),
+                              name="Text",
+                              attachment_type=AttachmentType.TEXT)
+            else:
+                allure.attach(body=json.dumps(response.json(), indent=4).encode("utf8"),
+                              name="Response Json",
+                              attachment_type=AttachmentType.JSON,
+                              extension='json')
+    return response
