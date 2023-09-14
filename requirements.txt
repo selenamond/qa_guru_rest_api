@@ -1,7 +1,0 @@
-requests
-pytest
-jsonschema
-allure-pytest
-selene>=2.0.0b4
-webdriver-manager==3.8.6
-curlify
