@@ -6,7 +6,7 @@ authors = ["elenautkina <selenamondeu@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 selene = "2.0.0rc4"
 pytest = "7.4.2"
 requests = "2.31.0"
