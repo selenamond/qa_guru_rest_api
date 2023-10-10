@@ -57,4 +57,4 @@
 
 ### <img width="3%" title="Telegram" src="images/tg.png"> Интеграция с Telegram
 ##### После прохождения тестов, в Telegram bot приходит сообщение с графиком и информацией о выполненных тестах
-
+![This is an image](images/screenshots/tg_allure.png)
